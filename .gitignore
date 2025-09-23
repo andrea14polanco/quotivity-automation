@@ -1,0 +1,52 @@
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+out/
+
+# Playwright
+playwright-report/
+test-results/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Playwright screenshots/videos
+screenshots/
+videos/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Misc
+coverage/
+*.tgz
+*.zip
+*.tar
+*.gz
+
+# Dependency directories
+bower_components/
+
+# OS generated files
+Thumbs.db

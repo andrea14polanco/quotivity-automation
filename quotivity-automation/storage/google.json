@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "__Host-GAPS",
+      "value": "1:yML-j2zPkHuNjbBWlRocEo6cowwS2w:ggwi7y2_p1hO-KNp",
+      "domain": "accounts.google.com",
+      "path": "/",
+      "expires": 1793186088.066978,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OTZ",
+      "value": "8272035_72_72__72_",
+      "domain": "accounts.google.com",
+      "path": "/",
+      "expires": 1761218088,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

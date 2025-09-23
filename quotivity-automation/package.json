@@ -1,0 +1,27 @@
+{
+  "name": "quotivity-automation",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "ui": "playwright test --ui",
+    "show-report": "playwright show-report",
+    "auth:google": "playwright test --project=setup-google --headed",
+    "auth:microsoft": "playwright test --project=setup-microsoft --headed",
+    "auth:magic": "playwright test --project=setup-magic --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^24.5.2",
+    "dotenv": "^17.2.2",
+    "mailslurp-client": "^16.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
