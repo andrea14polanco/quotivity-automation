@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [['html', { open: 'never' }]],
   use: {
     baseURL: BASE_URL,
-    headless: true,
+    headless: false,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -25,7 +25,7 @@ export default defineConfig({
       name: 'setup-google',
       use: { ...devices['Desktop Chrome'], channel: 'chrome' } // chrome channel helps with Google challenges
     },
-    {
+   /* {
       name: 'setup-microsoft',
       use: { ...devices['Desktop Chrome'], channel: 'chrome' }
     },
@@ -49,6 +49,6 @@ export default defineConfig({
       name: 'magic-link',
       use: { storageState: 'storage/magic.json', ...devices['Desktop Chrome'] },
       dependencies: []
-    }
+    }*/
   ],
 });

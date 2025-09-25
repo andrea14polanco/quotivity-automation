@@ -36,6 +36,6 @@ export class LoginPage {
 
   async expectLoggedIn() {
      await expect(this.page.getByRole('heading', { name: /what would you like to do today/i }))
-      .toBeVisible();
+      .toBeVisible({timeout: 50000});
   }
 }

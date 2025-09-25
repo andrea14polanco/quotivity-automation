@@ -19,9 +19,13 @@
     "@playwright/test": "^1.55.0",
     "@types/dotenv": "^6.1.1",
     "@types/node": "^24.5.2",
+    "@types/node-fetch": "^2.6.13",
     "dotenv": "^17.2.2",
     "mailslurp-client": "^16.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
   }
 }
