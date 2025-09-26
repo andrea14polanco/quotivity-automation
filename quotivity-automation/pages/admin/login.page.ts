@@ -7,6 +7,25 @@ export class LoginPage {
     await this.page.goto('/sign-in-link-request');
   }
 
+  async loginWithGoogle({ email, password, otp }: { email: string; password: string; otp: string }) {
+    await this.goto();
+    await this.clickGoogle();
+
+    await this.page.locator('input[type="email"]').fill(email);
+    await this.page.getByRole('button', { name: /^next$/i }).click();
+
+    await this.page.locator('input[type="password"][name="Passwd"]').fill(password);
+    await this.page.getByRole('button', { name: /^next$|^sign in$/i }).click();
+
+    await this.page.locator('input[type="tel"][name="totpPin"]').fill(otp);
+    await this.page.getByRole('button', { name: /^next$/i }).click();
+
+    await expect(this.page.getByText(/Please Select an Account to Sign In/i)).toBeVisible();
+
+    await this.chooseAccount();
+    await this.expectLoggedIn();
+  }
+
   async clickGoogle() {
     await this.page.getByText('Sign In with Google').click();
   }

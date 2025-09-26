@@ -1,70 +1,21 @@
 import { test as base, expect, request } from '@playwright/test';
-import fetch from 'node-fetch';
-import fs from 'fs';
-import path from 'path';
+import type { Page } from '@playwright/test';
 import { QuoteApi } from '../api/quote-api.js';
+import { generateToken } from 'authenticator';
 
 type Fixtures = {
   quoteApi: QuoteApi;
+  otp: string;
+  hubspotOtp: string;
+  page: Page;
 };
 
-async function getGoogleIdToken() {
-  const res = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      client_id: process.env.GOOGLE_CLIENT_ID!,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      refresh_token: process.env.GOOGLE_REFRESH_TOKEN!,
-      grant_type: 'refresh_token',
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch Google token: ${res.status} ${await res.text()}`);
-  }
-  const json = await res.json() as { id_token: string };
-  return json.id_token;
-}
-
-async function ensureStorageState(env: string) {
-  const storagePath = path.resolve(`storage/google-${env}.json`);
-
-  if (fs.existsSync(storagePath)) {
-    return storagePath;
-  }
-
-  // --- 1. Get a fresh Google id_token ---
-  const idToken = await getGoogleIdToken();
-
-  // --- 2. Call your backend to exchange id_token for app session ---
-  // Assume your backend has a test endpoint like /auth/test-google
-  const ctx = await request.newContext({
-    baseURL: `https://${env}.quote.hapily.com`,
-  });
-
-  const resp = await ctx.post('/auth/test-google', {
-    data: { id_token: idToken },
-  });
-
-  if (!resp.ok()) {
-    throw new Error(`Backend login failed: ${resp.status()} ${await resp.text()}`);
-  }
-
-  // --- 3. Save resulting storageState for reuse ---
-  await ctx.storageState({ path: storagePath });
-  await ctx.dispose();
-
-  return storagePath;
-}
 
 export const test = base.extend<Fixtures>({
   quoteApi: async ({ playwright }, use) => {
-    const env = process.env.TEST_ENV || 'staging';
-    const storageStatePath = await ensureStorageState(env);
+    const env = process.env.TEST_ENV || 'app';
 
     const requestContext = await playwright.request.newContext({
-      storageState: storageStatePath,
       baseURL: `https://${env}.quote.hapily.com`,
     });
 
@@ -72,6 +23,30 @@ export const test = base.extend<Fixtures>({
 
     await requestContext.dispose();
   },
+  otp: async ({}, use) => {
+    const secret = process.env.OTP_SECRET;
+    if (!secret) {
+      throw new Error('OTP_SECRET not set in .env');
+    }
+    // Generate a fresh OTP every time it's used in a test
+    const getOtp = () => generateToken(secret);
+    await use(getOtp());
+  },
+  hubspotOtp: async ({}, use) => {
+    const secret = process.env.HUBSPOT_OTP_SECRET;
+    if (!secret) {
+      throw new Error('HUBSPOT_OTP_SECRET not set in .env');
+    }
+    // Generate a fresh OTP every time it's used in a test
+    const getOtp = () => generateToken(secret);
+    await use(getOtp());
+  }, page: async ({ page }, use) => {
+    // Set default timeout for all actions
+    page.setDefaultTimeout(30000);
+    page.setDefaultNavigationTimeout(60000);
+    await use(page);  
+  }
 });
 
 export { expect } from '@playwright/test';
+export type { Page } from '@playwright/test';

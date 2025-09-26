@@ -3,9 +3,10 @@ import { config } from '../config/env.js';
 
 test.use({ storageState: `storage/google-${process.env.TEST_ENV || 'staging'}.json` });
 
-test('create quote and open builder', async ({ page, quoteApi }) => {
+test('create quote and open builder', async ({ page, quoteApi, otp }) => {
   //const quoteId = await quoteApi.createQuote('44462208529');
 
+  console.log('OTP:', otp);
  // await page.goto(`${config.appUrl}/wizard?action=edit&quoteId=${quoteId}&padded=true`);
 
   //await expect(page.getByRole('heading', { name: /create quote/i })).toBeVisible();
