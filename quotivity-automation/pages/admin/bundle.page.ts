@@ -8,12 +8,9 @@ export class BundlePage {
   }
 
   async createBundle(name: string) {
-    console.log('Creating bundle with name:', name);
     await this.page.goto('/bundles/create');
     await this.page.getByRole('button', { name: 'Select from Product Library' }).click();
     await this.searchAndSelectItem(name);
-
-
   }
 
   async searchAndSelectItem(searchTerm: string) {
@@ -23,15 +20,13 @@ export class BundlePage {
     await this.page.waitForTimeout(1000);
     // Hover over the first enabled row to reveal the button using mouse.move for reliability
     const firstRow = this.page.locator('tbody tr:not(.cursor-not-allowed)').first();
-    await firstRow.scrollIntoViewIfNeeded();
-    const box = await firstRow.boundingBox();
-    if (box) {
-      await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-    }
     
-      await firstRow.click({ force: true });
-      await this.page.waitForTimeout(200);
-      const button = firstRow.locator('button:not([disabled])');
+    const firstCell = firstRow.locator('td').first();
+    await firstCell.hover();
+    
+    const box = await firstRow.boundingBox();
+    await firstRow.click({ force: true });
+    const button = firstRow.locator('button:not([disabled])');
       try {
         await button.waitFor({ state: 'visible', timeout: 2000 });
         await button.click();
