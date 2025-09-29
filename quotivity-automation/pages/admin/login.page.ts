@@ -5,6 +5,8 @@ export class LoginPage {
 
   async goto() {
     await this.page.goto('/sign-in-link-request');
+    //load the cookie
+    
   }
 
   async loginWithGoogle({ email, password, otp }: { email: string; password: string; otp: string }) {
@@ -16,6 +18,18 @@ export class LoginPage {
 
     await this.page.locator('input[type="password"][name="Passwd"]').fill(password);
     await this.page.getByRole('button', { name: /^next$|^sign in$/i }).click();
+
+     // Handle Google 2FA selection screen if present
+    if (await this.page.locator('div:has-text("Choose a verification method")').isVisible({ timeout: 2000 })) {
+      // Try to select Authenticator app or OTP
+      const otpOption = this.page.getByRole('button', { name: /authenticator app|google authenticator|otp|verification code/i });
+      if (await otpOption.isVisible()) {
+        await otpOption.click();
+      } else {
+        // Fallback: select first available method
+        await this.page.getByRole('button', { name: /next|continue/i }).first().click();
+      }
+    }
 
     await this.page.locator('input[type="tel"][name="totpPin"]').fill(otp);
     await this.page.getByRole('button', { name: /^next$/i }).click();
