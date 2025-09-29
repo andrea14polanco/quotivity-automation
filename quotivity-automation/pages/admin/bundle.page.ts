@@ -25,7 +25,13 @@ export class BundlePage {
     await firstCell.hover();
     
     const box = await firstRow.boundingBox();
+    if (box) {
+      await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    }
+    
     await firstRow.click({ force: true });
+       
+    await this.page.waitForTimeout(200);
     const button = firstRow.locator('button:not([disabled])');
       try {
         await button.waitFor({ state: 'visible', timeout: 2000 });

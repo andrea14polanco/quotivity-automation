@@ -80,6 +80,31 @@ npx playwright test --retries=2
 
 ---
 
+## Using `data-test-id` for Reliable Component Selection
+
+A common issue in UI test automation is difficulty reliably selecting components due to dynamic classes, changing text, or complex DOM structures. To address this, it is recommended to add a unique `data-test-id` attribute to important components in your application.
+
+**Why use `data-test-id`?**
+- Makes selectors stable and less likely to break with UI changes
+- Improves test readability and maintainability
+- Allows Playwright and other tools to easily locate elements
+
+**Example usage:**
+```html
+<button data-test-id="submit-btn">Submit</button>
+```
+
+**How to select in Playwright:**
+```typescript
+await page.locator('[data-test-id="submit-btn"]').click();
+```
+
+**Best Practice:**
+- Add `data-test-id` to all interactive or critical UI elements
+- Use descriptive and unique values for each component
+
+---
+
 ## 📝 Best Practices
 
 - Keep Google test accounts clean and OTP-only.  
