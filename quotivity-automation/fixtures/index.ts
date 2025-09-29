@@ -2,6 +2,7 @@ import { test as base, expect, request } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import { QuoteApi } from '../api/quote-api.js';
 import { generateToken } from 'authenticator';
+import 'dotenv/config';
 
 type Fixtures = {
   quoteApi: QuoteApi;
@@ -14,13 +15,10 @@ type Fixtures = {
 export const test = base.extend<Fixtures>({
   quoteApi: async ({ playwright }, use) => {
     const env = process.env.TEST_ENV || 'app';
-
     const requestContext = await playwright.request.newContext({
       baseURL: `https://${env}.quote.hapily.com`,
     });
-
     await use(new QuoteApi(requestContext));
-
     await requestContext.dispose();
   },
   otp: async ({}, use) => {

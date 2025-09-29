@@ -1,0 +1,17 @@
+import {test, expect} from '@fixtures';
+import 'dotenv/config';
+//create a test that generates hubsport otp and google otp and logs in to hubspot
+const GOOGLE_EMAIL = process.env.GOOGLE_EMAIL!;
+const GOOGLE_PASS = process.env.GOOGLE_PASS!;
+const HUBSPOT_EMAIL = process.env.HUBSPOT_EMAIL!;
+const HUBSPOT_OTP_SECRET = process.env.HUBSPOT_OTP_SECRET!;
+
+import { Page } from '@playwright/test';
+
+test.describe('Login Flow', () => {
+  test('user sees landing page after portal selection', async ({ page, hubspotOtp, quoteApi, context }) => {
+    console.log('Hubspot OTP:', hubspotOtp);
+
+    
+  })
+})

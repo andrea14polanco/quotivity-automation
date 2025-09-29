@@ -10,7 +10,7 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@fixtures/*": ["fixtures/*"],
+      "@fixtures": ["fixtures/index.ts"],
       "@pages/*": ["pages/*"],
       "@tests/*": ["tests/*"],
       "@utils/*": ["utils/*"]

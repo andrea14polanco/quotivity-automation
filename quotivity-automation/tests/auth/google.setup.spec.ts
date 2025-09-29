@@ -1,5 +1,5 @@
-import { test, expect } from '../../fixtures/index.js';
-import { LoginPage } from '../../pages/admin/login.page.js';
+import {test, expect} from '@fixtures';
+import { LoginPage } from '../../pages/admin/login.page';
 
 const GOOGLE_EMAIL = process.env.GOOGLE_EMAIL!;
 const GOOGLE_PASS = process.env.GOOGLE_PASS!;
